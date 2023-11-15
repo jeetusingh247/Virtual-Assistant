@@ -1,0 +1,257 @@
+# AI VOICE ASSISTANT
+import pyttsx3 # converts the text into speech
+import speech_recognition as sr
+import webbrowser  # for web search
+import datetime # for time and date
+import pyjokes # for jokes
+import smtplib as s# for sending emails
+import os
+import time
+import pywhatkit as pyw
+import wikipedia
+import pyaudio
+import sys
+import asyncio
+import openai
+# from winrt.windows.devices import radios
+# import random
+
+def sptext():
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        recognizer.adjust_for_ambient_noise(source)             # to remove noise while listening 
+        audio = recognizer.listen(source)    
+        try:
+            print("recognizing....")
+            data = recognizer.recognize_google(audio)
+            print(data)
+            return data   
+        except sr.UnknownValueError:
+            print("Not Understanding...")
+
+
+def listen_for_commands():
+    with sr.Microphone() as source:
+        print("Listening for commands...")
+        audio = r.listen(source)
+
+    try:
+        text = r.recognize_google(audio)
+        print(f"You said: {text}")
+        if "shutdown my computer" in text:
+            print("Shutting down your computer...")
+            os.system("shutdown /s /t 0")
+        elif "restart my computer" in text:
+            print("Restarting your computer....")   
+            os.system("shutdown /r /t /0")
+        elif "hibernate my computer" in text:
+            print("Hibernating your computer....")   
+            os.system("shutdown /h /t /0")
+    except sr.UnknownValueError:
+        print("Sorry, I could not understand your speech.")
+    except sr.RequestError as e:
+        print(f"An error occurred: {e}")
+
+
+
+def speechtx(x):
+    engine = pyttsx3.init()
+    voices = engine.getProperty("voices")
+    engine.setProperty("voice",voices[0].id)   # 0 for male voice, 1 for female voice
+    rate = engine.getProperty("rate")
+    engine.setProperty("rate",150)  # to set the speed of speech
+    engine.say(x)
+    engine.runAndWait()
+
+if __name__ == "__main__":
+    
+    speechtx("Welcome and Please say the text given below")
+    print("SAY : Hello Omega")
+    if  "omega"  in  sptext().lower() :
+        speechtx("Hello Sir\nI am omega\nyour virtual assistant\nHow may i help you")
+        while True :
+            data1 = sptext().lower()
+
+            if "your name" in data1:
+                name = "my name is omega \nand i am here to help you"
+                speechtx(name)
+
+            elif "category" in data1:
+                category = "i am an ai voice assistant"
+                speechtx(f"{category} and this is my category sir")  
+
+            elif  "date" in data1:
+                date = datetime.datetime.now().strftime("%d%B%Y") # %I for hour, %M for minutes, %p for am,pm...
+                speechtx(f"{date} is the date today")
+
+            elif "open file explorer" in data1:
+                speechtx("opening the file explorer")
+                explorer = r"C:\Users\PC\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\System Tools\File Explorer"
+                os.startfile(explorer)
+           
+            elif  "time" in data1:
+                time = datetime.datetime.now().strftime("%H:%M:%S") # %I for hour, %M for minutes, %p for am,pm...
+                speechtx(f"{time} is the time now")
+    
+            elif "open youtube" in data1:
+                speechtx("opening youtube for you")
+                webbrowser.open("https://www.youtube.com/")
+
+            elif "activate artificial intelligence mode" in data1:
+                speechtx("Activating AI Mode")
+                openai.api_key = "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"    
+
+            elif "open command prompt" in data1:
+                speechtx("opening command prompt")
+                command = r"C:\Users\PC\Appdata\Roaming\Microsoft\Windows\Start Menu\Programs\System Tools\Command Prompt"
+                os.startfile(command)
+
+            elif "shut down my computer" in data1:
+                speechtx("Shutting down your computer")
+                os.system("shutdown /s /t 0") 
+
+            elif "restart my computer" in data1:
+                speechtx("Restarting your computer")
+                os.system("shutdown /r /t 0") 
+
+            elif "hibernate my computer" in data1:
+                speechtx("Highbernating your computer")
+                os.system("shutdown /h /t 0") 
+
+            elif "open gmail" in data1:
+                speechtx("opening gmail for you")
+                webbrowser.open("https://mail.google.com/mail/u/0/#inbox")
+
+            elif "open geeks for geeks" in data1:
+                speechtx("opening geeks for geeks")
+                webbrowser.open("https://www.geeksforgeeks.org/")
+
+            elif "open google" in data1:
+                speechtx("opening google")
+                webbrowser.open("https://www.google.co.in/webhp")  
+
+            elif "open github" in data1:
+                speechtx("opening github")
+                webbrowser.open("https://github.com/")  
+
+            elif "from wikipedia" in data1:
+                speechtx("Checking the wikipedia")
+                data = data.replace("wikipedia", "")
+                result = wikipedia.summary(data, sentences=2)
+                speechtx("According to wikipedia")
+                speechtx(result)     
+
+            elif "tell me a new joke" in data1:
+                joke1 = pyjokes.get_joke(language="en", category="neutral")
+                speechtx(f"{joke1}\nsir  do you like this joke ")
+
+            elif "open powerpoint presentation" in data1:
+                speechtx("opening power point presentation") 
+                power = r"C:\\Users\\PC\\Documents\\Virtual Assistant.pptx"  
+                os.startfile(power)
+
+            elif "open my presentation" in data1:
+                speechtx("opening your presentation") 
+                power = r"C:\Users\PC\Documents\Omega ~ My VirtualPRO.pptx"  
+                os.startfile(power)
+
+            elif "open notepad" in data1:
+                speechtx("opening notepad") 
+                notepad = r"C:\Programdata\Microsoft\Windows\Start Menu\Programs\Accessories\Notepad"  
+                os.startfile(notepad)
+
+            elif "open excel" in data1:
+                speechtx("opening microsoft excel")
+                excel = r"C:\Programdata\Microsoft\Windows\Start Menu\Programs\Excel" 
+                os.startfile(excel)
+
+            elif "open onenote" in data1:
+                speechtx("opening microsoft onenote")
+                onenote = r"C:\Users\PC\Desktop\OneNote for Windows 10"
+                os.startfile(onenote)
+
+            elif "open wordpad" in data1:
+                speechtx("opening wordpad")
+                wordpad = r"C:\Programdata\Microsoft\Windows\Start Menu\Programs\Accessories\WordPad"
+                os.startfile(wordpad)      
+                 
+            elif "close excel" in data1:
+                speechtx("closing microsoft excel")
+                os.system("taskkill /f  /im  EXCEL.EXE")
+                speechtx("closed excel successfully") 
+
+            elif "close powerpoint presentation" in data1:
+                speechtx("closing power point presentation")
+                os.system("taskkill /f  /im  POWERPNT.EXE")
+                speechtx("closed power point presentation successfully")
+
+            elif "close onenote" in data1:
+                speechtx("closing onenote")
+                os.system("taskkill /f  /im  onenoteim.exe")
+                speechtx("closed onenote successfully") 
+
+            elif "close notepad" in data1:
+                speechtx("closing notepad")
+                os.system("taskkill /f  /im  notepad.exe")
+                speechtx("closed notepad successfully") 
+
+            elif "close wordpad" in data1:
+                speechtx("closing wordpad")
+                os.system("taskkill /f  /im  wordpad.exe")
+                speechtx("closed wordpad successfully")  
+
+            elif "close file explorer" in data1:
+                speechtx("closing file explorer")
+                os.system("taskkill /f  /im  explorer.exe") 
+                speechtx("closed file explorer successfully") 
+
+            elif "close command prompt" in data1:
+                speechtx("closing command prompt")
+                os.system("taskkill /f  /im  cmd.exe")
+                speechtx("closed command prompt successfully") 
+
+            elif "close media player" in data1:
+                speechtx("closing mdia player")
+                os.system("taskkill /f  /im  Microsoft.Media.Player.exe") 
+                speechtx("closed media player successfully") 
+
+            elif "play my favourite song" in data1:
+                speechtx("opening your favourite song please wait")
+                add = r"C:\Users\PC\Desktop\code with harry complete notes\songs"
+                listsong = os.listdir(add)
+                print(listsong)
+                os.startfile(os.path.join(add,listsong[1]))
+              
+            elif "open whatsapp" in data1:
+                speechtx("opening whatsapp for you")
+                whatsapp = r"C:\Users\PC\Desktop\WhatsApp"
+                os.startfile(whatsapp)
+
+            elif "close whatsapp" in data1:
+                speechtx("closing whatsapp for you")
+                os.system("taskkill /f  /im  WhatsApp.exe")
+                speechtx("closed whatsapp successfully")
+
+            # elif "open cortana" in data1:
+            #     speechtx("opening cortana")
+            #     cortana = r"C:\Users\PC\Desktop\Cortana"
+            #     os.startfile(cortana)
+
+            # elif "close cortana" in data1:
+            #     speechtx("closing cortana")
+            #     os.system("taskkill /f  /im  Cortana.exe")
+            #     speechtx("closed cortana successfully")         
+                      
+            elif "exit" in data1:
+                speechtx("thank you and have a nice day ahead")
+                break    
+
+            time.sleep(10)
+            
+    else:
+        __print = ("thank you\nand have a nice day :-)")
+        print(__print)
+        
+
+
